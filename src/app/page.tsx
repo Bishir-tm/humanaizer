@@ -8,7 +8,7 @@ export default function Home() {
         <div className="flex items-center gap-2">
            <BookCheck className="h-6 w-6 text-primary" />
           <h1 className="text-xl font-bold tracking-tight text-foreground">
-            Scholar's Polisher
+            HumanAIzer
           </h1>
         </div>
       </header>

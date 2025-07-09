@@ -3,8 +3,8 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
-  title: 'Scholar\'s Polisher',
-  description: 'Refine your AI-generated academic texts to perfection. Enhance readability, preserve citations, and ensure technical accuracy with our advanced humanization tool.',
+  title: 'HumanAIzer',
+  description: 'Refine your AI-generated texts to perfection with HumanAIzer. Enhance readability, preserve citations, and ensure technical accuracy with our advanced humanization tool.',
 };
 
 export default function RootLayout({
