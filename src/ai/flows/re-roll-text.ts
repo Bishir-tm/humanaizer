@@ -17,6 +17,8 @@ const ReRollTextInputSchema = z.object({
     .enum(['Subtle', 'Balanced', 'Aggressive'])
     .describe('The desired strength of humanization.'),
   lockedKeywords: z.array(z.string()).optional().describe('Keywords that should not be altered.'),
+  tone: z.enum(['Formal', 'Casual', 'Confident', 'Friendly', 'Professional']).optional().describe('The desired tone for the output text.'),
+  style: z.enum(['Academic', 'Blog Post', 'Business Email', 'Marketing Copy', 'Story']).optional().describe('The desired writing style for the output text.'),
 });
 export type ReRollTextInput = z.infer<typeof ReRollTextInputSchema>;
 
@@ -37,11 +39,22 @@ const prompt = ai.definePrompt({
 
 The original text is: {{{originalText}}}
 
-You should adjust the text according to the following humanization strength: {{{humanizationStrength}}}
+You should adjust the text according to the following humanization strength: {{{humanizationStrength}}}.
 
-{% if lockedKeywords %}
-You MUST NOT modify the following keywords: {{lockedKeywords}}
-{% endif %}
+{{#if tone}}
+The desired tone for the output is: {{{tone}}}.
+{{/if}}
+
+{{#if style}}
+The desired writing style for the output is: {{{style}}}.
+{{/if}}
+
+{{#if lockedKeywords}}
+You MUST NOT modify the following keywords:
+{{#each lockedKeywords}}
+- {{{this}}}
+{{/each}}
+{{/if}}
 
 Rewrite the text to sound more human.
 `,

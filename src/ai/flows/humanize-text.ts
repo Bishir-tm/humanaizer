@@ -16,6 +16,8 @@ const HumanizeTextInputSchema = z.object({
   text: z.string().describe('The AI-generated text to humanize.'),
   lockedKeywords: z.array(z.string()).optional().describe('A list of keywords and phrases that should not be altered.'),
   humanizationStrength: z.enum(['Subtle', 'Balanced', 'Aggressive']).default('Balanced').describe('The degree of modification applied to the text.'),
+  tone: z.enum(['Formal', 'Casual', 'Confident', 'Friendly', 'Professional']).optional().describe('The desired tone for the output text.'),
+  style: z.enum(['Academic', 'Blog Post', 'Business Email', 'Marketing Copy', 'Story']).optional().describe('The desired writing style for the output text.'),
 });
 export type HumanizeTextInput = z.infer<typeof HumanizeTextInputSchema>;
 
@@ -67,6 +69,14 @@ Additional instructions to enhance humanization:
 9. Simplify explanations as if speaking aloud to a friend or explaining to a non-technical person. Keep it clear, but not sterile.
 
 10. Maintain the original tone and register (e.g., academic, professional, technical). Do not convert the text into casual or informal language. The goal is to improve human-likeness without diluting the original style.
+
+{{#if tone}}
+Adapt the text to adopt a '{{{tone}}}' tone.
+{{/if}}
+
+{{#if style}}
+Rewrite the text in the style of a '{{{style}}}'.
+{{/if}}
 
 Instructions on academic integrity and accuracy:
 

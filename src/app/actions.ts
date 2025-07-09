@@ -18,14 +18,25 @@ import {
 
 type ActionResult<T> = { success: true; data: T } | { success: false; error: string };
 
+// This type matches what the client sends
+type ClientActionInput = {
+  text: string;
+  strength: "Subtle" | "Balanced" | "Aggressive";
+  lockedKeywords?: string[];
+  tone?: "Formal" | "Casual" | "Confident" | "Friendly" | "Professional";
+  style?: "Academic" | "Blog Post" | "Business Email" | "Marketing Copy" | "Story";
+}
+
 export async function humanizeTextAction(
-  input: Omit<HumanizeTextInput, "text"> & { text: string }
+  input: ClientActionInput
 ): Promise<ActionResult<HumanizeTextOutput>> {
   try {
     const result = await humanizeText({
         text: input.text,
         humanizationStrength: input.strength,
         lockedKeywords: input.lockedKeywords,
+        tone: input.tone,
+        style: input.style,
     });
     return { success: true, data: result };
   } catch (e) {
@@ -36,13 +47,15 @@ export async function humanizeTextAction(
 }
 
 export async function reRollTextAction(
-  input: Omit<ReRollTextInput, "originalText"> & { text: string }
+  input: ClientActionInput
 ): Promise<ActionResult<ReRollTextOutput>> {
     try {
         const result = await reRollText({
             originalText: input.text,
             humanizationStrength: input.strength,
             lockedKeywords: input.lockedKeywords,
+            tone: input.tone,
+            style: input.style,
         });
         return { success: true, data: result };
     } catch (e) {

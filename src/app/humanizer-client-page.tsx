@@ -2,9 +2,11 @@
 
 import { useState, useTransition } from "react";
 import {
+  Brush,
   Copy,
   Loader2,
   LockKeyhole,
+  Mic,
   RotateCw,
   ScanLine,
   SlidersHorizontal,
@@ -33,8 +35,12 @@ import {
 } from "@/components/ui/tooltip";
 import { Progress } from "@/components/ui/progress";
 import type { EstimateAiDetectionScoreOutput } from "@/ai/flows/estimate-ai-detection-score";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type HumanizationStrength = "Subtle" | "Balanced" | "Aggressive";
+type Tone = "Formal" | "Casual" | "Confident" | "Friendly" | "Professional";
+type Style = "Academic" | "Blog Post" | "Business Email" | "Marketing Copy" | "Story";
+
 
 export default function HumanizerClientPage() {
   const { toast } = useToast();
@@ -46,6 +52,8 @@ export default function HumanizerClientPage() {
   const [outputText, setOutputText] = useState("");
   const [lockedKeywords, setLockedKeywords] = useState("");
   const [strength, setStrength] = useState<HumanizationStrength>("Balanced");
+  const [tone, setTone] = useState<Tone | undefined>();
+  const [style, setStyle] = useState<Style | undefined>();
   
   const [inputScore, setInputScore] = useState<EstimateAiDetectionScoreOutput | null>(null);
   const [outputScore, setOutputScore] = useState<EstimateAiDetectionScoreOutput | null>(null);
@@ -71,6 +79,8 @@ export default function HumanizerClientPage() {
         text: inputText,
         strength,
         lockedKeywords: keywords,
+        tone,
+        style
       });
 
       if (result.success) {
@@ -194,6 +204,40 @@ export default function HumanizerClientPage() {
                 <Label htmlFor="aggressive">Aggressive</Label>
               </div>
             </RadioGroup>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="tone-selector" className="flex items-center gap-2">
+              <Mic className="w-4 h-4" /> Tone
+            </Label>
+            <Select onValueChange={(value: Tone) => setTone(value)} disabled={isLoading}>
+              <SelectTrigger id="tone-selector">
+                <SelectValue placeholder="Select a tone" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Formal">Formal</SelectItem>
+                <SelectItem value="Casual">Casual</SelectItem>
+                <SelectItem value="Confident">Confident</SelectItem>
+                <SelectItem value="Friendly">Friendly</SelectItem>
+                <SelectItem value="Professional">Professional</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="style-selector" className="flex items-center gap-2">
+              <Brush className="w-4 h-4" /> Style
+            </Label>
+            <Select onValueChange={(value: Style) => setStyle(value)} disabled={isLoading}>
+              <SelectTrigger id="style-selector">
+                <SelectValue placeholder="Select a style" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Academic">Academic</SelectItem>
+                <SelectItem value="Blog Post">Blog Post</SelectItem>
+                <SelectItem value="Business Email">Business Email</SelectItem>
+                <SelectItem value="Marketing Copy">Marketing Copy</SelectItem>
+                <SelectItem value="Story">Story</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </CardContent>
       </Card>
