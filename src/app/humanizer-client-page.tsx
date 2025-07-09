@@ -9,7 +9,6 @@ import {
   Mic,
   RotateCw,
   ScanLine,
-  SlidersHorizontal,
   Wand2,
 } from "lucide-react";
 import { humanizeTextAction, reRollTextAction, estimateScoreAction } from "./actions";
@@ -23,7 +22,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
@@ -36,11 +34,6 @@ import {
 import { Progress } from "@/components/ui/progress";
 import type { EstimateAiDetectionScoreOutput } from "@/ai/flows/estimate-ai-detection-score";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible"
 
 
 type HumanizationStrength = "Subtle" | "Balanced" | "Aggressive";
@@ -53,7 +46,6 @@ export default function HumanizerClientPage() {
   const [isHumanizing, startHumanizing] = useTransition();
   const [isAnalyzingInput, startAnalyzingInput] = useTransition();
   const [isAnalyzingOutput, startAnalyzingOutput] = useTransition();
-  const [isControlsOpen, setIsControlsOpen] = useState(true);
 
   const [inputText, setInputText] = useState("");
   const [outputText, setOutputText] = useState("");
@@ -165,111 +157,120 @@ export default function HumanizerClientPage() {
 
   return (
     <div className="container mx-auto p-4 md:p-6 lg:p-8 flex flex-col items-center space-y-8">
-      <Collapsible
-        open={isControlsOpen}
-        onOpenChange={setIsControlsOpen}
-        className="w-full max-w-4xl"
-      >
-        <CollapsibleTrigger asChild>
-          <Button variant="outline" className="w-full border-border/60 bg-card/50 shadow-sm">
-            <SlidersHorizontal className="h-5 w-5 mr-2" />
-            Humanization Controls
-          </Button>
-        </CollapsibleTrigger>
-        <CollapsibleContent>
-          <Card className="w-full mt-2 border-border/60 bg-card/50 shadow-sm">
+      
+      <div className="w-full max-w-4xl text-center">
+        <h2 className="text-2xl font-bold tracking-tight">Humanization Controls</h2>
+        <p className="text-muted-foreground">Fine-tune the AI to get the perfect result.</p>
+      </div>
+
+      <div className="w-full max-w-4xl space-y-6">
+          <Card className="w-full border-border/60 bg-card/50 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-2xl">Humanization Controls</CardTitle>
+              <CardTitle className="flex items-center gap-2 font-semibold text-lg">
+                <LockKeyhole className="w-5 h-5" /> Locked Keywords
+              </CardTitle>
               <CardDescription>
-                Fine-tune the AI to get the perfect result.
+                Words or phrases the AI won't change. Separate with commas.
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8 pt-2">
-                <div className="space-y-3">
-                  <Label htmlFor="locked-keywords" className="flex items-center gap-2 font-semibold">
-                    <LockKeyhole className="w-4 h-4" /> Locked Keywords
-                  </Label>
-                  <p className="text-sm text-muted-foreground">Words or phrases the AI won't change. Separate with commas.</p>
-                  <Input
-                    id="locked-keywords"
-                    placeholder="e.g., quantum entanglement, citations"
-                    value={lockedKeywords}
-                    onChange={(e) => setLockedKeywords(e.target.value)}
-                    disabled={isLoading}
-                  />
-                </div>
-                <div className="space-y-3">
-                  <Label className="flex items-center gap-2 font-semibold">
-                    <Wand2 className="w-4 h-4" /> Humanization Strength
-                  </Label>
-                  <p className="text-sm text-muted-foreground">Controls how much the AI changes your text. Subtle makes small edits, while Aggressive rewrites it more.</p>
-                  <div className="grid gap-2 pt-1">
-                    <Slider
-                      value={[strengthLevels.indexOf(strength)]}
-                      onValueChange={(value) =>
-                        setStrength(strengthLevels[value[0]])
-                      }
-                      min={0}
-                      max={2}
-                      step={1}
-                      disabled={isLoading}
-                    />
-                    <div className="flex justify-between text-xs text-muted-foreground">
-                      {strengthLevels.map((level) => (
-                        <span
-                          key={level}
-                          className="w-1/3 cursor-pointer text-center"
-                          onClick={() => !isLoading && setStrength(level)}
-                        >
-                          {level}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <Label htmlFor="tone-selector" className="flex items-center gap-2 font-semibold">
-                    <Mic className="w-4 h-4" /> Tone of Voice
-                  </Label>
-                  <p className="text-sm text-muted-foreground">Choose the desired feeling for the writing (e.g., friendly, professional).</p>
-                  <Select onValueChange={(value: Tone) => setTone(value)} disabled={isLoading}>
-                    <SelectTrigger id="tone-selector">
-                      <SelectValue placeholder="Select a tone" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Formal">Formal</SelectItem>
-                      <SelectItem value="Casual">Casual</SelectItem>
-                      <SelectItem value="Confident">Confident</SelectItem>
-                      <SelectItem value="Friendly">Friendly</SelectItem>
-                      <SelectItem value="Professional">Professional</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-3">
-                  <Label htmlFor="style-selector" className="flex items-center gap-2 font-semibold">
-                    <Brush className="w-4 h-4" /> Writing Style
-                  </Label>
-                  <p className="text-sm text-muted-foreground">Choose the writing format, like a blog post or business email.</p>
-                  <Select onValueChange={(value: Style) => setStyle(value)} disabled={isLoading}>
-                    <SelectTrigger id="style-selector">
-                      <SelectValue placeholder="Select a style" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Academic">Academic</SelectItem>
-                      <SelectItem value="Blog Post">Blog Post</SelectItem>
-                      <SelectItem value="Business Email">Business Email</SelectItem>
-                      <SelectItem value="Marketing Copy">Marketing Copy</SelectItem>
-                      <SelectItem value="Story">Story</SelectItem>
-                    </SelectContent>
-                  </Select>
+              <Input
+                id="locked-keywords"
+                placeholder="e.g., quantum entanglement, citations"
+                value={lockedKeywords}
+                onChange={(e) => setLockedKeywords(e.target.value)}
+                disabled={isLoading}
+              />
+            </CardContent>
+          </Card>
+
+          <Card className="w-full border-border/60 bg-card/50 shadow-sm">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 font-semibold text-lg">
+                <Wand2 className="w-5 h-5" /> Humanization Strength
+              </CardTitle>
+              <CardDescription>
+                Controls how much the AI changes your text. Subtle makes small edits, while Aggressive rewrites it more.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-2 pt-1">
+                <Slider
+                  value={[strengthLevels.indexOf(strength)]}
+                  onValueChange={(value) =>
+                    setStrength(strengthLevels[value[0]])
+                  }
+                  min={0}
+                  max={2}
+                  step={1}
+                  disabled={isLoading}
+                />
+                <div className="flex justify-between text-xs text-muted-foreground">
+                  {strengthLevels.map((level) => (
+                    <span
+                      key={level}
+                      className="w-1/3 cursor-pointer text-center font-medium"
+                      onClick={() => !isLoading && setStrength(level)}
+                    >
+                      {level}
+                    </span>
+                  ))}
                 </div>
               </div>
             </CardContent>
           </Card>
-        </CollapsibleContent>
-      </Collapsible>
-      
+
+          <Card className="w-full border-border/60 bg-card/50 shadow-sm">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 font-semibold text-lg">
+                <Mic className="w-5 h-5" /> Tone of Voice
+              </CardTitle>
+              <CardDescription>
+                Choose the desired feeling for the writing (e.g., friendly, professional).
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Select onValueChange={(value: Tone) => setTone(value)} disabled={isLoading}>
+                <SelectTrigger id="tone-selector">
+                  <SelectValue placeholder="Select a tone" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Formal">Formal</SelectItem>
+                  <SelectItem value="Casual">Casual</SelectItem>
+                  <SelectItem value="Confident">Confident</SelectItem>
+                  <SelectItem value="Friendly">Friendly</SelectItem>
+                  <SelectItem value="Professional">Professional</SelectItem>
+                </SelectContent>
+              </Select>
+            </CardContent>
+          </Card>
+
+          <Card className="w-full border-border/60 bg-card/50 shadow-sm">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 font-semibold text-lg">
+                <Brush className="w-5 h-5" /> Writing Style
+              </CardTitle>
+              <CardDescription>
+                Choose the writing format, like a blog post or business email.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Select onValueChange={(value: Style) => setStyle(value)} disabled={isLoading}>
+                <SelectTrigger id="style-selector">
+                  <SelectValue placeholder="Select a style" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Academic">Academic</SelectItem>
+                  <SelectItem value="Blog Post">Blog Post</SelectItem>
+                  <SelectItem value="Business Email">Business Email</SelectItem>
+                  <SelectItem value="Marketing Copy">Marketing Copy</SelectItem>
+                  <SelectItem value="Story">Story</SelectItem>
+                </SelectContent>
+              </Select>
+            </CardContent>
+          </Card>
+      </div>
+
       <div className="flex justify-center">
         <Button size="lg" onClick={() => handleHumanize(false)} disabled={isLoading || !inputText}>
           {isHumanizing ? (
@@ -282,7 +283,7 @@ export default function HumanizerClientPage() {
       </div>
 
       <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="h-full flex flex-col border-border shadow-none">
+        <Card className="h-full flex flex-col border-border/60 bg-card/50 shadow-sm">
           <CardHeader className="flex-row items-center justify-between">
             <div className="space-y-1">
               <CardTitle>Original Text</CardTitle>
@@ -307,7 +308,7 @@ export default function HumanizerClientPage() {
           </CardFooter>
         </Card>
 
-        <Card className="h-full flex flex-col border-border shadow-none">
+        <Card className="h-full flex flex-col border-border/60 bg-card/50 shadow-sm">
           <CardHeader className="flex-row items-center justify-between">
              <div className="space-y-1">
               <CardTitle>Polished Text</CardTitle>
