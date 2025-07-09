@@ -1,4 +1,4 @@
-import { BookCheck } from "lucide-react";
+import { BrainCircuit } from "lucide-react";
 import HumanizerClientPage from "./humanizer-client-page";
 
 export default function Home() {
@@ -6,7 +6,7 @@ export default function Home() {
     <div className="flex flex-col min-h-dvh bg-background dark:bg-slate-950">
       <header className="px-4 lg:px-6 h-16 flex items-center border-b">
         <div className="flex items-center gap-2">
-           <BookCheck className="h-6 w-6 text-primary" />
+           <BrainCircuit className="h-6 w-6 text-primary" />
           <h1 className="text-xl font-bold tracking-tight text-foreground">
             HumanAIzer
           </h1>
