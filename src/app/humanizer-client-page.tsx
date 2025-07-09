@@ -171,7 +171,7 @@ export default function HumanizerClientPage() {
         <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
             <Label htmlFor="locked-keywords" className="flex items-center gap-2">
-              <LockKeyhole className="w-4 h-4" /> Term Fortress
+              <LockKeyhole className="w-4 h-4" /> Locked Keywords
             </Label>
             <Input
               id="locked-keywords"
@@ -180,11 +180,11 @@ export default function HumanizerClientPage() {
               onChange={(e) => setLockedKeywords(e.target.value)}
               disabled={isLoading}
             />
-            <p className="text-xs text-muted-foreground">Comma-separated keywords to keep unchanged.</p>
+            <p className="text-xs text-muted-foreground">Comma-separated words or phrases to keep unchanged.</p>
           </div>
           <div className="space-y-2">
             <Label className="flex items-center gap-2">
-              <Wand2 className="w-4 h-4" /> Tuning Slider
+              <Wand2 className="w-4 h-4" /> Humanization Strength
             </Label>
             <div className="grid gap-2 pt-2">
               <Slider
@@ -209,10 +209,11 @@ export default function HumanizerClientPage() {
                 ))}
               </div>
             </div>
+            <p className="text-xs text-muted-foreground">Controls how much the text is altered. 'Subtle' makes minor edits, while 'Aggressive' rewrites more heavily.</p>
           </div>
           <div className="space-y-2">
             <Label htmlFor="tone-selector" className="flex items-center gap-2">
-              <Mic className="w-4 h-4" /> Tone
+              <Mic className="w-4 h-4" /> Tone of Voice
             </Label>
             <Select onValueChange={(value: Tone) => setTone(value)} disabled={isLoading}>
               <SelectTrigger id="tone-selector">
@@ -226,10 +227,11 @@ export default function HumanizerClientPage() {
                 <SelectItem value="Professional">Professional</SelectItem>
               </SelectContent>
             </Select>
+            <p className="text-xs text-muted-foreground">Set the overall feeling of the text (e.g., formal, casual).</p>
           </div>
           <div className="space-y-2">
             <Label htmlFor="style-selector" className="flex items-center gap-2">
-              <Brush className="w-4 h-4" /> Style
+              <Brush className="w-4 h-4" /> Writing Style
             </Label>
             <Select onValueChange={(value: Style) => setStyle(value)} disabled={isLoading}>
               <SelectTrigger id="style-selector">
@@ -243,6 +245,7 @@ export default function HumanizerClientPage() {
                 <SelectItem value="Story">Story</SelectItem>
               </SelectContent>
             </Select>
+            <p className="text-xs text-muted-foreground">Adapt the writing for a specific format (e.g., blog post, email).</p>
           </div>
         </CardContent>
       </Card>
