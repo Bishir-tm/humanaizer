@@ -8,7 +8,7 @@ export default function Home() {
         <div className="flex items-center gap-2">
            <BrainCircuit className="h-6 w-6 text-primary" />
           <h1 className="text-xl font-bold tracking-tight text-foreground">
-            HumanAIzer
+            Human<span className="text-primary">AI</span>zer
           </h1>
         </div>
       </header>
