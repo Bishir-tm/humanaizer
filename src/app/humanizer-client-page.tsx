@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Slider } from "@/components/ui/slider";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -59,6 +59,7 @@ export default function HumanizerClientPage() {
   const [outputScore, setOutputScore] = useState<EstimateAiDetectionScoreOutput | null>(null);
 
   const isLoading = isHumanizing || isAnalyzingInput || isAnalyzingOutput;
+  const strengthLevels: HumanizationStrength[] = ["Subtle", "Balanced", "Aggressive"];
 
   const handleHumanize = (isReroll = false) => {
     if (!inputText) {
@@ -185,25 +186,29 @@ export default function HumanizerClientPage() {
             <Label className="flex items-center gap-2">
               <Wand2 className="w-4 h-4" /> Tuning Slider
             </Label>
-            <RadioGroup
-              defaultValue="Balanced"
-              className="flex items-center space-x-4 pt-2"
-              onValueChange={(value: HumanizationStrength) => setStrength(value)}
-              disabled={isLoading}
-            >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="Subtle" id="subtle" />
-                <Label htmlFor="subtle">Subtle</Label>
+            <div className="grid gap-2 pt-2">
+              <Slider
+                value={[strengthLevels.indexOf(strength)]}
+                onValueChange={(value) =>
+                  setStrength(strengthLevels[value[0]])
+                }
+                min={0}
+                max={2}
+                step={1}
+                disabled={isLoading}
+              />
+              <div className="flex justify-between text-xs text-muted-foreground">
+                {strengthLevels.map((level) => (
+                  <span
+                    key={level}
+                    className="w-1/3 cursor-pointer text-center"
+                    onClick={() => !isLoading && setStrength(level)}
+                  >
+                    {level}
+                  </span>
+                ))}
               </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="Balanced" id="balanced" />
-                <Label htmlFor="balanced">Balanced</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="Aggressive" id="aggressive" />
-                <Label htmlFor="aggressive">Aggressive</Label>
-              </div>
-            </RadioGroup>
+            </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="tone-selector" className="flex items-center gap-2">
