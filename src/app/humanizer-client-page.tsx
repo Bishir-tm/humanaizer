@@ -163,7 +163,7 @@ export default function HumanizerClientPage() {
         <p className="text-muted-foreground">Fine-tune the AI to get the perfect result.</p>
       </div>
 
-      <div className="w-full max-w-4xl space-y-6">
+      <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card className="w-full border-border/60 bg-card/50 shadow-sm">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 font-semibold text-lg">
