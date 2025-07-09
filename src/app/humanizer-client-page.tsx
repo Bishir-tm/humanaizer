@@ -352,6 +352,14 @@ export default function HumanizerClientPage() {
           </CardFooter>
         </Card>
       </div>
+      <footer className="w-full text-center text-sm text-muted-foreground p-4">
+      Powered by{" "}
+      <a href="https://codeket.com" target="_blank" rel="noopener noreferrer" className="text-primary underline">
+ Codeket
+      </a>{" "}
+      (because even AI needs a little help from its friends). &copy; {new Date().getFullYear()} Codeket. All rights reserved.
+    </footer>
     </div>
+
   );
 }
