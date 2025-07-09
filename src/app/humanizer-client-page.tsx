@@ -180,7 +180,7 @@ export default function HumanizerClientPage() {
               onChange={(e) => setLockedKeywords(e.target.value)}
               disabled={isLoading}
             />
-            <p className="text-xs text-muted-foreground">Comma-separated words or phrases to keep unchanged.</p>
+            <p className="text-xs text-muted-foreground">Words or phrases the AI won't change. Separate with commas.</p>
           </div>
           <div className="space-y-2">
             <Label className="flex items-center gap-2">
@@ -209,7 +209,7 @@ export default function HumanizerClientPage() {
                 ))}
               </div>
             </div>
-            <p className="text-xs text-muted-foreground">Controls how much the text is altered. 'Subtle' makes minor edits, while 'Aggressive' rewrites more heavily.</p>
+            <p className="text-xs text-muted-foreground">Controls how much the AI changes your text. Subtle makes small edits, while Aggressive rewrites it more.</p>
           </div>
           <div className="space-y-2">
             <Label htmlFor="tone-selector" className="flex items-center gap-2">
@@ -227,7 +227,7 @@ export default function HumanizerClientPage() {
                 <SelectItem value="Professional">Professional</SelectItem>
               </SelectContent>
             </Select>
-            <p className="text-xs text-muted-foreground">Set the overall feeling of the text (e.g., formal, casual).</p>
+            <p className="text-xs text-muted-foreground">Choose the desired feeling for the writing (e.g., friendly, professional).</p>
           </div>
           <div className="space-y-2">
             <Label htmlFor="style-selector" className="flex items-center gap-2">
@@ -245,7 +245,7 @@ export default function HumanizerClientPage() {
                 <SelectItem value="Story">Story</SelectItem>
               </SelectContent>
             </Select>
-            <p className="text-xs text-muted-foreground">Adapt the writing for a specific format (e.g., blog post, email).</p>
+            <p className="text-xs text-muted-foreground">Choose the writing format, like a blog post or business email.</p>
           </div>
         </CardContent>
       </Card>
