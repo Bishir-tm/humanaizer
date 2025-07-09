@@ -173,6 +173,7 @@ export default function HumanizerClientPage() {
             <Label htmlFor="locked-keywords" className="flex items-center gap-2">
               <LockKeyhole className="w-4 h-4" /> Locked Keywords
             </Label>
+            <p className="text-xs text-muted-foreground">Words or phrases the AI won't change. Separate with commas.</p>
             <Input
               id="locked-keywords"
               placeholder="e.g., quantum entanglement, citations"
@@ -180,13 +181,13 @@ export default function HumanizerClientPage() {
               onChange={(e) => setLockedKeywords(e.target.value)}
               disabled={isLoading}
             />
-            <p className="text-xs text-muted-foreground">Words or phrases the AI won't change. Separate with commas.</p>
           </div>
           <div className="space-y-2">
             <Label className="flex items-center gap-2">
               <Wand2 className="w-4 h-4" /> Humanization Strength
             </Label>
-            <div className="grid gap-2 pt-2">
+            <p className="text-xs text-muted-foreground">Controls how much the AI changes your text. Subtle makes small edits, while Aggressive rewrites it more.</p>
+            <div className="grid gap-2">
               <Slider
                 value={[strengthLevels.indexOf(strength)]}
                 onValueChange={(value) =>
@@ -209,12 +210,12 @@ export default function HumanizerClientPage() {
                 ))}
               </div>
             </div>
-            <p className="text-xs text-muted-foreground">Controls how much the AI changes your text. Subtle makes small edits, while Aggressive rewrites it more.</p>
           </div>
           <div className="space-y-2">
             <Label htmlFor="tone-selector" className="flex items-center gap-2">
               <Mic className="w-4 h-4" /> Tone of Voice
             </Label>
+            <p className="text-xs text-muted-foreground">Choose the desired feeling for the writing (e.g., friendly, professional).</p>
             <Select onValueChange={(value: Tone) => setTone(value)} disabled={isLoading}>
               <SelectTrigger id="tone-selector">
                 <SelectValue placeholder="Select a tone" />
@@ -227,12 +228,12 @@ export default function HumanizerClientPage() {
                 <SelectItem value="Professional">Professional</SelectItem>
               </SelectContent>
             </Select>
-            <p className="text-xs text-muted-foreground">Choose the desired feeling for the writing (e.g., friendly, professional).</p>
           </div>
           <div className="space-y-2">
             <Label htmlFor="style-selector" className="flex items-center gap-2">
               <Brush className="w-4 h-4" /> Writing Style
             </Label>
+            <p className="text-xs text-muted-foreground">Choose the writing format, like a blog post or business email.</p>
             <Select onValueChange={(value: Style) => setStyle(value)} disabled={isLoading}>
               <SelectTrigger id="style-selector">
                 <SelectValue placeholder="Select a style" />
@@ -245,7 +246,6 @@ export default function HumanizerClientPage() {
                 <SelectItem value="Story">Story</SelectItem>
               </SelectContent>
             </Select>
-            <p className="text-xs text-muted-foreground">Choose the writing format, like a blog post or business email.</p>
           </div>
         </CardContent>
       </Card>
