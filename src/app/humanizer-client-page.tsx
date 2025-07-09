@@ -271,17 +271,6 @@ export default function HumanizerClientPage() {
           </Card>
       </div>
 
-      <div className="flex justify-center">
-        <Button size="lg" onClick={() => handleHumanize(false)} disabled={isLoading || !inputText}>
-          {isHumanizing ? (
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          ) : (
-            <Wand2 className="mr-2 h-4 w-4" />
-          )}
-          Humanize Text
-        </Button>
-      </div>
-
       <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="h-full flex flex-col border-border/60 bg-card/50 shadow-sm">
           <CardHeader className="flex-row items-center justify-between">
@@ -303,8 +292,16 @@ export default function HumanizerClientPage() {
               disabled={isLoading}
             />
           </CardContent>
-          <CardFooter>
+          <CardFooter className="flex flex-col gap-4">
             <ScoreDisplay scoreData={inputScore} title="AI Detection Score" />
+            <Button size="lg" onClick={() => handleHumanize(false)} disabled={isLoading || !inputText}>
+              {isHumanizing ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Wand2 className="mr-2 h-4 w-4" />
+              )}
+              Humanize Text
+            </Button>
           </CardFooter>
         </Card>
 
